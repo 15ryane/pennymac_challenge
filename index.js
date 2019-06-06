@@ -2,7 +2,7 @@
 /*
 * PennyMac Challenge - Ed Ryan - Jun 5, 2019
 * Given a weather data file, output the day number with the smallest temperature spread.
-* Given a soccer score data file, output the team with the smallest for-against point differential.
+* Given a soccer score data file, output the team with the smallest for-against point spread.
 */
 
 const { textParser  } = require("./parsers/textParser.js");
