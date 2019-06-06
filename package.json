@@ -1,0 +1,12 @@
+{
+  "name": "pennymac_challenge",
+  "version": "1.0.0",
+  "description": "PennyMac Challenge",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ed Ryan",
+  "license": "ISC"
+}
