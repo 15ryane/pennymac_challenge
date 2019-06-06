@@ -1,10 +1,10 @@
 /**
  * 
- * Calculates the min differential between two columns of a 2D array.
+ * Finds the row with the smallest difference between two columns of a 2D array.
  *
  * @param {Array}  data               Location of file to parse.
- * @param {Object} config             Describes which columns to compare, and what to return to describe the smallest differential.
- * @param {Number} [config.identIdx]  Optional: the column used to identify the row with the smallest differential. If omitted, will return the zero-indexed row.
+ * @param {Object} config             Describes which columns to compare, and what to return to describe the smallest difference.
+ * @param {Number} [config.identIdx]  Optional: the column used to identify the row with the smallest difference. If omitted, will return the zero-indexed row.
  * @param {Number} config.firstIdx    The index of the first column to be compared.
  * @param {Number} config.secondIdx   The index of the second column to be compared.
  * 
@@ -17,6 +17,8 @@ function calcMinDiff(data, config) {
   let {identIdx, firstIdx, secondIdx} = config;
   let smallestSpread = Infinity;
   let smallestRow = -1;
+
+  if(!config) throw new Error("Config file not found in calcMinDiff.")
 
   for(let i=0; i<data.length; i+=1) {
     if(data[i][firstIdx] && data[i][secondIdx]) {

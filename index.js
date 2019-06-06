@@ -5,38 +5,43 @@
 * Given a soccer score data file, output the team with the smallest for-against point differential.
 */
 
-const { textParser }  = require("./parsers/textParser.js");
+const { textParser  } = require("./parsers/textParser.js");
 const { calcMinDiff } = require("./parsers/dataParser.js");
+const { categorize  } = require("./parsers/categorize.js");
 
-function calculateWeatherDiff() {
-  textParser("./data/w_data (5).dat", {
-    charStartOffset: 3,
-    charEndOffset: 16,
-    lineStartOffset: 5,
-    lineEndOffset: 2
-  })
-  .then( weatherData => calcMinDiff(weatherData, {
-    identIdx: 0,
-    firstIdx: 1,
-    secondIdx: 2
-  }) )
-  .then( result => console.log("The day with the smallest temp spread is Day", result + ".") );
-}
+const { keywordConfig, calcDiffConfig, txtConfig} = require("./config.js")
 
-function calculateSoccerDiff() {
-  textParser("./data/soccer.dat", {
-    charStartOffset: 8,
-    charEndOffset: 54,
-    lineStartOffset: 2,
-    lineEndOffset: 1,
-  })
-  .then( soccerData => calcMinDiff(soccerData, {
-    identIdx: 0,
-    firstIdx: 7,
-    secondIdx: 5
-  }) )
-  .then( result => console.log("The team with the smallest for-against point differential is", result + ".") );
-}
+const fs = require('fs');
 
-calculateWeatherDiff();
-calculateSoccerDiff();
+/*
+*
+* For each file in the data folder
+*
+* 1. Categorize the file. The category determines how we parse information.
+* 2. Turn the text file into arrays of useful data.
+* 3. Find the difference between specified columns.
+* 4. Output a result based on the comparison.
+*
+*/
+
+fs.readdir("./data", (err, files) => {
+  files.forEach(file => {
+
+    const filePath = "./data/" + file;
+    let category = "";
+
+    categorize(filePath, keywordConfig) // 1 
+    .then (result => {
+      category = result;
+      return textParser(filePath, txtConfig[category]); // 2
+    })
+    .then (data => calcMinDiff(data, calcDiffConfig[category]) ) // 3
+    .then (result => {
+      console.log("\n" + filePath.slice(7), "\nResult:", result, "\n")  // 4
+    })
+    .catch( err => {
+      console.error(err);
+    })
+
+  });
+});
