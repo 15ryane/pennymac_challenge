@@ -12,6 +12,7 @@ const { categorize  } = require("./parsers/categorize.js");
 const { keywordConfig, calcDiffConfig, txtConfig} = require("./config.js")
 
 const fs = require('fs');
+const PATH = "./data/"
 
 /*
 *
@@ -24,10 +25,10 @@ const fs = require('fs');
 *
 */
 
-fs.readdir("./data", (err, files) => {
+fs.readdir(PATH, (err, files) => {
   files.forEach(file => {
 
-    const filePath = "./data/" + file;
+    const filePath = PATH + file;
     let category = "";
 
     categorize(filePath, keywordConfig) // 1 
